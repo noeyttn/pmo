@@ -19,7 +19,6 @@
 		"@cloudflare/workers-types": "^5.20261030.1",
 		"@internationalized/date": "^3.12.4",
 		"@lucide/svelte": "^1.64.0",
-		"@sveltejs/adapter-auto": "^8.0.0",
 		"@sveltejs/adapter-cloudflare": "^8.0.2",
 		"@sveltejs/kit": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^7.2.0",
@@ -48,5 +47,10 @@
 	},
 	"engines": {
 		"node": ">=22.17"
+	},
+	"overrides": {
+		"runed": {
+			"@sveltejs/kit": "$@sveltejs/kit"
+		}
 	}
 }
