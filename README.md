@@ -83,11 +83,15 @@ Admin กด "ย้อนกลับการแก้ไขนี้" ได�
 | วันคงเหลือ, สถานะเวลา (สูตร) | คำนวณสดตอนแสดงผล |
 | sheet "ภาพรวม" (สูตรทั้งหมด) | ไม่นำเข้า — Dashboard คำนวณใหม่ |
 
-## Deploy ไป Cloudflare Pages + D1 (ภายหลัง)
+## Deploy: Cloudflare Pages + D1
 
-1. `npx wrangler d1 create pm-app` แล้วใส่ `database_id` + uncomment `[[d1_databases]]` ใน `wrangler.toml`
-2. `npm run db:generate` → `npx wrangler d1 migrations apply pm-app --remote`
-3. นำข้อมูลเข้า D1 (เช่น export `local.db` เป็น SQL แล้ว `wrangler d1 execute pm-app --remote --file=...`)
-4. `npm run build` แล้ว deploy โฟลเดอร์ `.svelte-kit/cloudflare` (หรือเชื่อม Git กับ Cloudflare Pages)
+- ฐานข้อมูล D1 ชื่อ `pm-app` สร้างแล้ว และผูกไว้ใน `wrangler.toml` (binding `DB`) — โปรดักชันใช้ D1 อัตโนมัติ ส่วน `npm run dev` ใช้ `local.db`
+- ตั้งค่า Pages (เชื่อม GitHub repo นี้):
+  - Framework preset: **SvelteKit** (หรือ None)
+  - Build command: `npm run build`
+  - Build output directory: `.svelte-kit/cloudflare`
+  - Node: ใช้เวอร์ชันจากไฟล์ `.node-version` (SvelteKit 3 ต้องการ ≥ 22.17)
+- แก้ schema: `npm run db:generate` → `npx wrangler d1 migrations apply pm-app --remote`
+- นำข้อมูลจาก DB ในเครื่องขึ้น D1: `npx tsx scripts/dump-sql.ts > seed.sql` → `npx wrangler d1 execute pm-app --remote --file=seed.sql`
 
-โค้ด query ไม่ต้องแก้ — `getDb()` จะใช้ D1 อัตโนมัติเมื่อมี binding `DB`
+โค้ด query ไม่ต้องแก้ — `getDb()` ใช้ D1 อัตโนมัติเมื่อมี binding `DB`

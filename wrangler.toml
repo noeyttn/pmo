@@ -3,14 +3,11 @@ compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".svelte-kit/cloudflare"
 
-# When moving to Cloudflare D1, create the database and uncomment:
-#   npx wrangler d1 create pm-app
-#   npm run db:generate
-#   npx wrangler d1 migrations apply pm-app --remote
-# The app automatically uses the `DB` binding when it exists (src/lib/server/db/index.ts).
-#
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "pm-app"
-# database_id = "<from wrangler d1 create>"
-# migrations_dir = "drizzle"
+# Cloudflare D1 (production database). The app uses this binding automatically
+# in production; `npm run dev` keeps using local.db (src/lib/server/db/index.ts).
+# Schema changes: npm run db:generate → npx wrangler d1 migrations apply pm-app --remote
+[[d1_databases]]
+binding = "DB"
+database_name = "pm-app"
+database_id = "9135c1af-6002-4ef3-8c57-7d2d776cf8ee"
+migrations_dir = "drizzle"
