@@ -6,7 +6,7 @@ import { SESSION_COOKIE, validateSession } from '#lib/server/auth.js';
 const PUBLIC_PATHS = ['/login'];
 
 export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.db = await getDb(event.platform);
+	event.locals.db = await getDb();
 	const sid = event.cookies.get(SESSION_COOKIE);
 	event.locals.user = sid ? await validateSession(event.locals.db, sid) : null;
 	if (sid && !event.locals.user) event.cookies.delete(SESSION_COOKIE, { path: '/' });

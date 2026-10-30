@@ -9,10 +9,11 @@ declare global {
 			db: DB;
 			user: SessionUser | null;
 		}
-		interface Platform {
-			env?: {
-				DB?: import('@cloudflare/workers-types').D1Database;
-			};
+	}
+	/** Bindings from wrangler.toml, read via `import { env } from 'cloudflare:workers'`. */
+	namespace Cloudflare {
+		interface Env {
+			DB?: import('@cloudflare/workers-types').D1Database;
 		}
 	}
 }
